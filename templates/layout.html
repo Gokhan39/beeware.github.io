@@ -38,7 +38,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/grid.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap-grid.min.css">
 
     <!-- Project CSS -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Cutive">
@@ -54,7 +54,7 @@
     {%- endif -%}
 
     <!-- Font Awesome -->
-    <script src="https://use.fontawesome.com/1138bd8363.js"></script>
+    <script src="https://kit.fontawesome.com/078c86a30a.js" crossorigin="anonymous"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2943925-4"></script>
@@ -76,9 +76,11 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="navbar-brand-block">
+      <a class="navbar-brand" href="{{ '/'|url(alt=this.alt) }}"><img class="mx-2" src="{{ '/static/images/brutus-32.png'|asseturl }}">BeeWare</a>
+    </div>
   </div>
   <div class="collapse navbar-collapse" id="navbarsDefault">
-    <div class="navbar-brand-block"><a class="navbar-brand" href="{{ '/'|url(alt=this.alt) }}">BeeWare</a></div>
     <ul class="navbar-nav mr-auto">
       {{ menu_item('project') }}
       {{ menu_item('news') }}
@@ -102,7 +104,7 @@
           </a>
           {%- else -%}
           {# This method is provided by a custom plugin found in /packages/lektor_beeware_plugin/ #}
-          {%- set content_value = urlencode_limit(site.get(this.path).contents.as_text(), limit=5000) -%}
+          {%- set content_value = urlencode_limit(site.get(this.path, alt='_primary').contents.as_text(), limit=5000) -%}
           {%- if content_value and '@' not in this.path -%}
           <a class="nav-link" href="https://github.com/beeware/beeware.github.io/new/lektor/content{{ this.path }}/contents{{ alt_path }}.lr?filename=contents{{ alt_path }}.lr&value={{ content_value }}" target="_blank">
             <i class="fa fa-github "></i><small>&nbsp;{{ t_create_on_github }}</small>
@@ -118,9 +120,6 @@
           {%- set eng_active = this.alt == 'en' %}
           <a class="dropdown-item {% if eng_active %}active{% endif %}" href="{{ '.'|url(alt='en') }}">
           English
-          {%- if this.alt != 'en' -%}
-          &nbsp;<small>(<i>{{ transbag('translate', this.alt, 'english' )|trim }}</i>)</small>
-          {%- endif -%}
           </a>
 
           {%- for alt, alternative in config.ALTERNATIVES.items()|sort -%}
@@ -128,9 +127,6 @@
           {%- if alt != config.primary_alternative -%}
           <a class="dropdown-item {% if alt_active %}active{% endif %}" href="{{ '.'|url(alt=alt) }}">
           {{ transbag('translate', alt, alternative.name.en.lower()) }}
-          {%- if this.alt != alt -%}
-          <small>(<i>{{ transbag('translate', this.alt, alternative.name.en.lower())|trim }}</i>)</small>
-          {%- endif -%}
           </a>
           {%- endif -%}
           {%- endfor -%}
@@ -147,7 +143,7 @@
         {%- if this.alt in get_alts(source=this, fallback=False) and diff -%}
         <div class="alert alert-warning">
           <i class="fa fa-warning"></i>&nbsp;{{ t_translation_out_of_date }}&nbsp;&nbsp;
-          <a href="{{ site.get(this.path)|url }}" data-toggle="modal" data-target="#myModal">{{ t_see_original_content }}</a>
+          <a href="{{ site.get(this.path, alt='_primary')|url }}" data-toggle="modal" data-target="#myModal">{{ t_see_original_content }}</a>
         </div>
 
         <!-- Modal -->
@@ -189,18 +185,24 @@
 	      <div class="float-right clearfix d-sm-block d-none">&copy; Russell Keith-Magee {{ none|dateformat('Y') }}</div>
         <p class="d-sm-block d-none">
           <a href="https://github.com/beeware/"><i class="fa fa-github fa-lg" aria-hidden="true"></i> GitHub</a> |
-          <a href="https://gitter.im/beeware/general/"><i class="fa fa-comments-o fa-lg" aria-hidden="true"></i> Gitter</a> |
-          <a href="https://twitter.com/PyBeeWare/"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i> Twitter</a> |
+          <a href="https://beeware.org/bee/chat/"><i class="fa-brands fa-discord fa-lg" aria-hidden="true"></i> Discord</a> |
+          <a href="https://fosstodon.org/@beeware"><i class="fa-brands fa-mastodon fa-lg" aria-hidden="true"></i> Mastodon</a> |
           <a href="{{ '/sitemap'|url(alt=this.alt) }}"><i class="fa fa-sitemap fa-lg" aria-hidden="true"></i> {{ t_sitemap }}</a>
         </p>
         <p class="d-block d-sm-none footer-social">
           <a href="https://github.com/beeware/"><i class="fa fa-github fa-lg" aria-hidden="true"></i> GitHub</a> |
-          <a href="https://gitter.im/beeware/general/"><i class="fa fa-comments-o fa-lg" aria-hidden="true"></i> Gitter</a> |
-          <a href="https://twitter.com/PyBeeWare/"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i> Twitter</a>
+          <a href="https://beeware.org/bee/chat/"><i class="fa-brands fa-discord fa-lg" aria-hidden="true"></i> Discord</a> |
+          <a rel="me" href="https://fosstodon.org/@beeware"><i class="fa-brands fa-mastodon fa-lg" aria-hidden="true"></i> Mastodon</a>
         </p>
         <p class="d-block d-sm-none footer-sitemap">
           <a href="{{ '/sitemap'|url(alt=this.alt) }}"><i class="fa fa-sitemap fa-lg" aria-hidden="true"></i> {{ t_sitemap }}</a>
         </p>
+        {% set team = site.query('/community/team', alt=this.alt).all() %}
+        {% for member in team %}
+          {% if member.mastodon_handle %}
+        <a rel="me" href="https://{{ member.mastodon_handle.split('@')[2] }}/@{{ member.mastodon_handle.split('@')[1] }}" style="display:none" ></a>
+          {% endif %}
+        {% endfor %}
       </div>
     </footer>
 

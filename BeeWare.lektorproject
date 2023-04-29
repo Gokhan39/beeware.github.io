@@ -54,8 +54,23 @@ name = French
 url_prefix = /fr_FR/
 locale = fr_FR
 
+[alternatives.tr]
+name = Turkish
+url_prefix = /tr_TR/
+locale = tr_TR
+
+[alternatives.it]
+name = Italian
+url_prefix = /it_IT/
+locale = it_IT
+
+[alternatives.pl]
+name = Polish
+url_prefix = /pl_PL/
+locale = pl_PL
+
 [packages]
-lektor-rst = 0.2.0
+lektor-rst = 0.3.0
 lektor-github-repos = 0.1.1
 lektor-gravatar = 0.1.2
 

@@ -38,9 +38,9 @@ Community
 
 You can talk to the community through:
 
-* `@pybeeware on Twitter`_
+* `@beeware@fosstodon.org on Mastodon`_
 
-* BeeWare Gitter channel: `beeware/general`_
+* BeeWare Discord server: `Discord`_
 
 * `Tickets on the beeware.github.io issue tracker`_
 
@@ -68,8 +68,8 @@ to date with the original branch. To do this:
 
 
 .. _BeeWare project: http://beeware.org
-.. _@pybeeware on Twitter: https://twitter.com/pybeeware
-.. _beeware/general: https://gitter.im/beeware/general
+.. _@beeware@fosstodon.org on Mastodon: https://fosstodon.org/@beeware
+.. _Discord: https://beeware.org/bee/chat/
 .. _Tickets on the beeware.github.io issue tracker: https://github.com/beeware/beeware.github.io/issues
 .. _log them on Github: https://github.com/beeware/beeware.github.io/issues
 .. _fork the code: https://github.com/beeware/beeware.github.io/tree/lektor
@@ -99,7 +99,7 @@ the site!  Steps are as follows:
    <https://github.com/beeware/beeware.github.io/blob/lektor/databags/menu.ini>`_,
    adding a block for your language.
 
-4. Start adding translations for content pages ont he site. Translated files
+4. Start adding translations for content pages on the site. Translated files
    are at the same directory level as the primary English files, but have a
    language suffix. For example, Arabic's locale is 'ar', so you would add
    `contents+ar.lr` wherever the original file name is `contents.lr`
